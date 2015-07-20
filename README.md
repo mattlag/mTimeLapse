@@ -1,5 +1,5 @@
 # mTimeLapse
-Simple library that takes all the images in a <div> with id="mTimeLapse", and fades them 
+Simple library that takes all the images in a div with id="mTimeLapse", and fades them 
 through a loop to create a rough time-lapse 'video'.
 
 Has easily customizable frame time names and values.
