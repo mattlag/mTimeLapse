@@ -1,7 +1,15 @@
 
 $(function(){
 
+	/* Customize speed options here */
 	var tl = {
+		'speeds': {
+			'Very_Fast': 100,
+			'Fast': 200,
+			'Medium': 500,
+			'Slow': 1000,
+			'Very_Slow': 2000
+		},
 		'advancing': false,
 		'img':[],
 		'currFrame': 0,
@@ -9,14 +17,7 @@ $(function(){
 		'sitTime': 0,
 		'framefront':false,
 		'frameback':false,
-		'si': 'false',
-		'speeds': {
-			'Very_Fast': 100,
-			'Fast': 200,
-			'Medium': 500,
-			'Slow': 1000,
-			'Very_Slow': 2000
-		}
+		'si': 'false'
 	};
 
 	var f = $('#mTimeLapse');
@@ -24,7 +25,7 @@ $(function(){
 	if(f){
 		// Setup
 		tl.img = f.children('img');
-		f.before('<div id="frames"><img id="frame_back"/><img id="frame_front"/></div><div id="controls"></div></div>');
+		f.before('<div id="frames"><img id="frame_back"/><img id="frame_front"/></div><div id="controls"><div id="data_stamp"></div><br></div></div>');
 
 		var c = $('#controls');
 		c.append('<input type="button" value="Pause" id="pausebutton" onclick="toggleAdvance();"/><br>');
@@ -41,19 +42,24 @@ $(function(){
 	function advanceFrame() {
 		// console.log('Advancing, currframe is ' + tl.currFrame);
 
-		tl.frameback.attr('src', getFrameSrc());
+		tl.frameback.attr('src', getFrameAttribute('src'));
 		tl.currFrame = ((tl.currFrame + 1) % tl.img.length);
-		tl.framefront.attr('src', getFrameSrc());
+		tl.framefront.attr('src', getFrameAttribute('src'));
 		tl.framefront.css({'opacity': 0.0});
 		tl.framefront.animate({'opacity': 1.0},{'duration': tl.fadeTime, 'queue':false});
 
+		$('#data_stamp').html(getFrameAttribute('data-stamp'));
 		// console.log('\t\t>done');
 	}
 
-	function getFrameSrc() {
-		var s = tl.img[tl.currFrame].src;
-		// console.log(s);
-		return s;
+	function getFrameAttribute(attr) {
+		var s = tl.img[tl.currFrame].getAttribute(attr);
+
+		//logging
+		// console.log(tl.img[tl.currFrame]);
+		// console.log(`${attr} returns ${s}`);
+
+		return s || '';
 	}
 
 	function advance() {
